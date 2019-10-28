@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
-import { useObject, useObjectVal } from 'react-firebase-hooks/database'
+import { useObjectVal } from 'react-firebase-hooks/database'
 import { firebaseConfig } from '../firebaseConfig'
+import  Select  from './Select/index'
 //import EditForm from './EditForm';
 
 import './Devices.css';
 
-
 firebase.initializeApp(firebaseConfig);
+
+const options = [ 10, 15, 30 ,60]
 
 const Device =() => {
 
@@ -28,6 +30,11 @@ const Device =() => {
     firebase.database().ref('led').set( !snapshots.led );
     
   }
+
+  const handleTime = (event:any) => {
+    console.log('envent click: ',event.target.value);
+    firebase.database().ref('time').set( +event.target.value );
+  }
   
   // const snapshots = {...getInitialState()}
 
@@ -46,6 +53,15 @@ const Device =() => {
               id= 'led'>
                 {!snapshots.led ? 'Encender led': 'Apagar led'}
               </button>
+              <div>
+                <Select
+                  id = 'time'
+                  name = 'time'
+                  options = {options}
+                  onClick = {handleTime}
+
+                />
+              </div>
           </div>
         );
   }

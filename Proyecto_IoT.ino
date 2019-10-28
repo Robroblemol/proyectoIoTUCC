@@ -27,7 +27,7 @@ void ICACHE_RAM_ATTR checkFirebase(){
 
   sensorValue = analogRead(A0);
   flag_Read_ADC = true;
-  timer1_write(600000); //120000 us
+  timer1_write(900000); //120000 us
 }
 
 void toggleEnableInterruptions(){

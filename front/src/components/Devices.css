@@ -1,24 +1,14 @@
-.status {
-    background-color: white;
-    color: black;
-    border: solid black 2px;
-    margin: 10px;
-    padding: 10px;
-    position: relative; 
-  }
-  .status .close {
-      position: absolute;
-      top: 0%;
-      right: 0%;
-      font-size: 30px;
-      padding: 5px;
-      cursor: pointer;
-  }
-  .status .edit {
-    position: absolute; 
-    top: 75%;
-    right: 90%;
-    font-size: 20px;
-    padding: 5px;
-    cursor: pointer;
-  }
+button {
+  background-color:transparent;
+  border: 1px solid #ece6e1;
+  color: gray;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+button:hover{
+  border: 2px solid #ece6e1; 
+  color: white
+}
