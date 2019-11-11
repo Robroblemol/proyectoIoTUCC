@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import { useObjectVal } from 'react-firebase-hooks/database'
+import Chart from 'react-google-charts';
 import { firebaseConfig } from '../firebaseConfig'
 import  Select  from './Select/index'
 //import EditForm from './EditForm';
@@ -17,6 +18,7 @@ const Device =() => {
     led: false,
     pot: 0,
     time: 0,
+    logs_adc: {},
   });
 
   const [snapshots={...getInitialState()}, loading, error] = useObjectVal(firebase.database().ref());
@@ -24,6 +26,19 @@ const Device =() => {
   // console.log('snapshots', snapshots);
   // console.log('error',error);
   // console.log('loading', loading);
+
+ 
+  const dataLog = Object.values(snapshots.logs_adc);
+
+  const arrDataformated = [
+    ['id','current'],
+    ...dataLog.map((d, i:number) => [i++, d])
+  ]
+  
+  console.log('dataLog', arrDataformated);
+  
+  
+  
 
   const handleLed = (event:any) => {
     // console.log('envent click: ',event);
@@ -53,6 +68,25 @@ const Device =() => {
               id= 'led'>
                 {!snapshots.led ? 'Encender led': 'Apagar led'}
               </button>
+              <div className = 'chart'>
+              <Chart
+                width={'350px'}
+                height={'250px'}
+                chartType="LineChart"
+                loader={<div>Loading Chart</div>}
+                data={arrDataformated}
+                options={{
+                  hAxis: {
+                    title: 'Tiempo',
+                  },
+                  vAxis: {
+                    title: 'Corriente',
+                  },
+                }}
+                rootProps={{ 'data-testid': '1' }}
+                />
+
+              </div>
               <div>
                 <Select
                   id = 'time'

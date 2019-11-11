@@ -12,3 +12,8 @@ button:hover{
   border: 2px solid #ece6e1; 
   color: white
 }
+.chart{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+}

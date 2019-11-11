@@ -1,6 +1,9 @@
 #include <ESP8266WiFi.h>
+// #include "FirebaseESP32.h"
 #include <FirebaseArduino.h>
 #include <Ticker.h>  //Ticker Library
+
+// FirebaseData firebaseData;
 // Set these to run example.
 
 // install arduinoJSON version 5.13
@@ -9,8 +12,11 @@
 bool flag_Read_ADC = false;
 bool statusFBLed = false; // variable for store status led in firebase
 bool flag_enableInterruption = true; //variable for toggle interrupts enable
+const float SENSIBILITY = 0.100; // Modelo 20A
+
 
 float sensorValue;
+int i = 0;
 String dataIn;
 
 
@@ -25,7 +31,6 @@ void ICACHE_RAM_ATTR checkFirebase(){
 
   }
 
-  sensorValue = analogRead(A0);
   flag_Read_ADC = true;
   timer1_write(900000); //120000 us
 }
@@ -74,20 +79,32 @@ void setup() {
 
 void loop() {
   //get value
-delay(500);
+delay(3000);
 toggleEnableInterruptions();
 statusFBLed = Firebase.getBool("led");
 toggleEnableInterruptions();
 
 if(flag_Read_ADC){
-  Firebase.setFloat("pot", sensorValue);
+
+  float dataADC = getCurrent(100);
+  Firebase.setFloat("pot", dataADC);
   // handle error
   if (Firebase.failed()) {
       Serial.print("setting /number failed:");
       Serial.println(Firebase.error());  
       return;
   }
-  // Serial.println(sensorValue);
+  // delay(1000);
+  float arr [10];
+  Firebase.setArray("array_adc",arr)
+  Firebase.push("logs_adc", dataADC);
+  // handle error
+  if (Firebase.failed()) {
+      Serial.print("pushing /logs failed:");
+      Serial.println(Firebase.error());  
+      return;
+  }
+  Serial.println(sensorValue);
 }
 
 if(Serial.available()) {
@@ -118,67 +135,16 @@ if(Serial.available()) {
   toggleEnableInterruptions();
 }
 
-  
-//  Serial.println(Firebase.getBool("led"));
-  
-  // set value
-  // Firebase.setFloat("led", 42.0);
-  // handle error
-  // if (Firebase.failed()) {
-  //     Serial.print("setting /number failed:");
-  //     Serial.println(Firebase.error());  
-  //     return;
-  // }
-  // delay(1000);
-  
-  // // update value
-  // Firebase.setFloat("number", 43.0);
-  // // handle error
-  // if (Firebase.failed()) {
-  //     Serial.print("setting /number failed:");
-  //     Serial.println(Firebase.error());  
-  //     return;
-  // }
-  // delay(1000);
+}
 
-  // // get value 
-  // Serial.print("number: ");
-  // Serial.println(Firebase.getFloat("number"));
-  // delay(1000);
-
-  // // remove value
-  // Firebase.remove("number");
-  // delay(1000);
-
-  // // set string value
-  // Firebase.setString("message", "hello world");
-  // // handle error
-  // if (Firebase.failed()) {
-  //     Serial.print("setting /message failed:");
-  //     Serial.println(Firebase.error());  
-  //     return;
-  // }
-  // delay(1000);
-  
-  // // set bool value
-  // Firebase.setBool("truth", false);
-  // // handle error
-  // if (Firebase.failed()) {
-  //     Serial.print("setting /truth failed:");
-  //     Serial.println(Firebase.error());  
-  //     return;
-  // }
-  // delay(1000);
-
-  // // append a new value to /logs
-  // String name = Firebase.pushInt("logs", n++);
-  // // handle error
-  // if (Firebase.failed()) {
-  //     Serial.print("pushing /logs failed:");
-  //     Serial.println(Firebase.error());  
-  //     return;
-  // }
-  // Serial.print("pushed: /logs/");
-  // Serial.println(name);
-  // delay(1000);
+float getCurrent(int samplesNumber)
+{
+   float voltage;
+   float corrienteSum = 0;
+   for (int i = 0; i < samplesNumber; i++)
+   {
+      voltage = analogRead(A0) * 5.0 / 1023.0;
+      corrienteSum += (voltage - 2.5) / SENSIBILITY;
+   }
+   return(corrienteSum / samplesNumber);
 }
