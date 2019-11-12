@@ -1,0 +1,27 @@
+.styled-select {
+    background: rgba(0, 0, 255, 0);
+    height: 3.5em;
+    overflow: hidden;
+    width: 9em;
+    color: gray;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    padding-left: 1em;
+ }
+ /* change colors of options */
+select, option {
+    color: black;
+    background-color: gray;
+}
+ select:hover{
+    border: 2px solid #ece6e1; 
+    color: white
+ }
+ .select-content{
+     padding: 1em;
+ }
+
+ 
+
+ 

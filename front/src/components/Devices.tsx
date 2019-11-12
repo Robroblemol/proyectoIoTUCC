@@ -60,6 +60,15 @@ const Device =() => {
               <p> led: {snapshots.led ? 'encendido': 'apagado'}</p>
               <p>ADC: {snapshots.pot} </p>
               <p> time: {snapshots.time}</p>
+              <div>
+                <Select
+                  id = 'time'
+                  name = 'time'
+                  options = {options}
+                  onClick = {handleTime}
+
+                />
+              </div>
               <button 
               onClick = {handleLed}
               name= 'led'
@@ -84,15 +93,6 @@ const Device =() => {
                 rootProps={{ 'data-testid': '1' }}
                 />
 
-              </div>
-              <div>
-                <Select
-                  id = 'time'
-                  name = 'time'
-                  options = {options}
-                  onClick = {handleTime}
-
-                />
               </div>
           </div>
         );

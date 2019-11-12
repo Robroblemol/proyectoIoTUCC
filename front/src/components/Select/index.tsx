@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './index.css'
 
 interface Props {
     id: string;
@@ -26,25 +26,28 @@ const Select = ({
     
 
     return (
-        <select
-            id = {id}
-            name = {name}
-            onClick = {handleClick}
-            
-            >
-            {
-                options.map((p)=>(
-                    
-                    <option 
-                        value= { p }
-                        id= {`${ p }`}
-                        key= {p}>
-                        {`${p} minutos`}
-                    </option>
-                ))
-            }
+        <div className = 'select-content'>
+            <select className = 'styled-select'
+                id = {id}
+                name = {name}
+                onClick = {handleClick}
+                
+                >
+                {
+                    options.map((p)=>(
+                        
+                        <option 
+                            value= { p }
+                            id= {`${ p }`}
+                            key= {p}>
+                            {`${p} minutos`}
+                        </option>
+                    ))
+                }
 
-        </select>
+            </select>
+
+        </div>
     )
 }
 export default (Select);
