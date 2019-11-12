@@ -27,15 +27,13 @@ const Device =() => {
   // console.log('error',error);
   // console.log('loading', loading);
 
- 
-  const dataLog = Object.values(snapshots.logs_adc);
-
-  const arrDataformated = [
+  const arrayDataformated = snapshots.logs_adc ?
+  [
     ['id','current'],
-    ...dataLog.map((d, i:number) => [i++, d])
-  ]
+    ... Object.values(snapshots.logs_adc).map((d, i:number) => [i++, d])
+  ]:[['id','current'],[0,0],];
   
-  console.log('dataLog', arrDataformated);
+  console.log('dataLog', arrayDataformated);
   
   
   
@@ -74,7 +72,7 @@ const Device =() => {
                 height={'250px'}
                 chartType="LineChart"
                 loader={<div>Loading Chart</div>}
-                data={arrDataformated}
+                data={arrayDataformated}
                 options={{
                   hAxis: {
                     title: 'Tiempo',
