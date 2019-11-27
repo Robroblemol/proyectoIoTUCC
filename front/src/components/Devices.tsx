@@ -55,30 +55,43 @@ const Device =() => {
 
   
       return (
-          <div>
-              <h1> Devices !!</h1>
-              <p> led: {snapshots.led ? 'encendido': 'apagado'}</p>
-              <p>ADC: {snapshots.pot} </p>
-              <p> time: {snapshots.time}</p>
-              <div>
+          <div className= "container">
+              <div className= "item">
+
+              <div className= "card">
+                
+                <h1> Smart Socket UCC</h1>
+
+                <div className="container-card">
+                  <p> Relé: {snapshots.led ? 'encendido': 'apagado'}</p>
+                  <p> Amperios consumidos: {snapshots.pot} </p>
+                  <p> tiempo programado: {snapshots.time}</p>
+                </div>
+
+              </div>
+
+
                 <Select
-                  id = 'time'
-                  name = 'time'
+                  id = "time"
+                  name = "time"
                   options = {options}
                   onClick = {handleTime}
 
                 />
+
+                <button 
+                  onClick = {handleLed}
+                  name= 'led'
+                  id= 'led'>
+                  {!snapshots.led ? 'Encender relé': 'Apagar relé'}
+                </button>
+
               </div>
-              <button 
-              onClick = {handleLed}
-              name= 'led'
-              id= 'led'>
-                {!snapshots.led ? 'Encender led': 'Apagar led'}
-              </button>
-              <div className = 'chart'>
+              <div className= "chart">
+                <h2>Historial mediciones</h2>
               <Chart
-                width={'350px'}
-                height={'250px'}
+                width={'250px'}
+                height={'150px'}
                 chartType="LineChart"
                 loader={<div>Loading Chart</div>}
                 data={arrayDataformated}
